@@ -29,6 +29,10 @@ export default class Tiktok extends React.Component {
     },
   ];
 
+  gradients = [ 
+    
+  ]
+
   constructor(props) {
     super(props);
     this.content = this.props.content.json;
@@ -64,7 +68,7 @@ export default class Tiktok extends React.Component {
   setupMovingFilter(src) {
     let canvas = this.canvas;
 
-    let img1 = new fabric.Image.fromURL(src ,function(img){
+    new fabric.Image.fromURL(src ,function(img){
       img.set({top: -img.height, selectable: false});
       canvas.add(img);
       (function animate() {
@@ -77,7 +81,7 @@ export default class Tiktok extends React.Component {
       })();
       }); 
 
-      let img2 = new fabric.Image.fromURL(src ,function(img){
+      new fabric.Image.fromURL(src ,function(img){
         img.set({top: 0, selectable: false});
         canvas.add(img);
         (function animate() {

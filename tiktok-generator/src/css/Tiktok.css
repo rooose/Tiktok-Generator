@@ -6,7 +6,7 @@
 }
 
 #c {
-    border: solid 1px red;
+    border: solid 1px black;
     position: absolute;
 }
 
@@ -18,7 +18,7 @@
     font-size: 60px;
     pointer-events: none;
     margin-right: -30px;
-    margin-top: -60px;
+    margin-top: -30px;
 }
 
 #account {
