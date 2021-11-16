@@ -72,3 +72,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### credits:
 favicon: https://icon-icons.com/fr/icone/media-social-tiktok/124256
+start filter: https://www.pngitem.com/middle/hJRmhm_star-png-transparent-night-stars-transparent-background-png/
+festive filter: https://www.kapwing.com/explore/holly-christmas-frame

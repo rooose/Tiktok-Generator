@@ -1,7 +1,13 @@
+.content {
+    width: 500px;
+    height: 720px;
+    margin: 0 auto;
+    position: relative;
+}
+
 #c {
-    background-color: red;
+    border: solid 1px red;
     position: absolute;
-    right:50%;
 }
 
 #playpause {
@@ -12,7 +18,7 @@
     font-size: 60px;
     pointer-events: none;
     margin-right: -30px;
-    margin-top: -30px;
+    margin-top: -60px;
 }
 
 #account {
@@ -37,7 +43,7 @@
 #musique {
     z-index: 200;
     top: 94%;
-    position:absolute;
+    position: absolute;
     padding-left: 20px;
     font-size: 14px;
     font-weight: 600;
@@ -47,7 +53,7 @@
     z-index: 200;
     top: 55%;
     text-align: center;
-    right: 35%;
+    right: 5%;
     position: absolute;
 }
 
