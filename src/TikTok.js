@@ -77,7 +77,7 @@ export default class Tiktok extends React.Component {
     console.log("IS PLAYING?", this.state.play);
 
     new fabric.Image.fromURL(src, function (img) {
-      img.set({ top: -img.height, selectable: false });
+      img.set({ top: -img.height, selectable: false, hoverCursor: "default" });
       canvas.add(img);
       (function animate() {
         if (_this.state.play) {
@@ -92,7 +92,7 @@ export default class Tiktok extends React.Component {
     });
 
     new fabric.Image.fromURL(src, function (img) {
-      img.set({ top: 0, selectable: false });
+      img.set({ top: 0, selectable: false, hoverCursor: "default"});
       canvas.add(img);
       (function animate() {
         if (_this.state.play) {
