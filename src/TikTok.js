@@ -29,7 +29,13 @@ export default class Tiktok extends React.Component {
     },
   ];
 
-  gradients = [];
+  GRADIENTS = [
+    ['rgb(157,80,187)',  'rgb(110,72,170)'],
+    ['rgb(179,255,171)', 'rgb(18,255,247)'],
+    ['rgb(255,78,80)',   'rgb(249,212,35)'],
+    ['rgb(251,211,233)', 'rgb(187,55,125)'],
+    ['rgb(0,210,255)',   'rgb(58,123,213)']
+  ];
 
   constructor(props) {
     super(props);
@@ -92,7 +98,7 @@ export default class Tiktok extends React.Component {
     });
 
     new fabric.Image.fromURL(src, function (img) {
-      img.set({ top: 0, selectable: false, hoverCursor: "default"});
+      img.set({ top: 0, selectable: false, hoverCursor: "default" });
       canvas.add(img);
       (function animate() {
         if (_this.state.play) {
@@ -119,6 +125,34 @@ export default class Tiktok extends React.Component {
     }
   }
 
+  setupBackground() {
+    let gradient = this.GRADIENTS[Math.floor(Math.random() * this.GRADIENTS.length)];
+    console.log(gradient[0])
+
+    let grad = new fabric.Gradient({
+      type: "linear",
+      coords: {
+        x1: 0,
+        y1: 0,
+        x2: this.canvas.width,
+        y2: this.canvas.height,
+      },
+      colorStops: [
+        {
+          color: gradient[0],
+          offset: 0,
+        },
+        {
+          color: gradient[1],
+          offset: 1,
+        },
+      ],
+    });
+
+    this.canvas.backgroundColor = grad.toLive(this.canvas.contextContainer);
+    this.canvas.renderAll();
+  }
+
   componentDidMount() {
     if (this.isMusic) {
       this.audio.addEventListener("ended", () => this.setState({ play: false }));
@@ -131,6 +165,8 @@ export default class Tiktok extends React.Component {
     });
 
     this.canvas.on("mouse:up", this.togglePlay);
+
+    this.setupBackground();
 
     if (this.content.filtre) {
       this.showFilter(this.content.filtre);
