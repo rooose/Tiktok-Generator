@@ -1,6 +1,6 @@
 .content {
-    width: 500px;
-    height: 720px;
+    width: min(450px, 100vw);
+    height: min(740px, 100vh);
     margin: 0 auto;
     position: relative;
 }
@@ -51,9 +51,10 @@
 
 #likes {
     z-index: 200;
-    top: 55%;
+    top: 50%;
     text-align: center;
-    right: 5%;
+    right: 0%;
+    padding-right: 10px;
     position: absolute;
 }
 

@@ -200,8 +200,10 @@ export default class Tiktok extends React.Component {
       this.audio.addEventListener("ended", () => this.setState({ play: false }));
     }
     this.canvas = new fabric.Canvas("c", {
-      width: 500,
-      height: 720,
+      width: Math.min(450, window.innerWidth),
+      height:  Math.min(740, window.innerHeight),
+      // width: 500,
+      // height:  720,
       defaultCursor: "default",
       moveCursor: "default",
     });

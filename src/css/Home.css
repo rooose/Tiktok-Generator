@@ -1,6 +1,26 @@
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+form {
+    position: absolute;
+    max-width: 500px;
+    width: -webkit-fill-available;
+    margin: 0 auto;
+    text-align:center;
+}
+
+label {
+    max-width: 500px;
+    width: -webkit-fill-available;
+}
+
 textarea {
     height:250px;
-    width: 500px;
+    width: -webkit-fill-available;
     background-color: #F5F5F5;
     resize: none;
 }
