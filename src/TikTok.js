@@ -1,7 +1,5 @@
 import React from "react";
 import { fabric } from "fabric";
-// import { FontAwesomeIcon } from 'react-fontawesome'
-// import faPause from '@fortawesome/fontawesome-free-solid'
 
 import "./css/Tiktok.css";
 
@@ -12,6 +10,10 @@ import september from "./assets/musics/september.mp3";
 import festiveFrame from "./assets/filters/Holly_Christmas_Frame.png";
 import blurredFrame from "./assets/filters/ralenti.png";
 import starFrame from "./assets/filters/star.png";
+
+import bob from "./assets/animals/bob_cropped.png";
+import wako from "./assets/animals/wako_cropped.png";
+import cookie from "./assets/animals/cookie_cropped.png";
 
 export default class Tiktok extends React.Component {
   URLS = [
@@ -30,11 +32,11 @@ export default class Tiktok extends React.Component {
   ];
 
   GRADIENTS = [
-    ['rgb(157,80,187)',  'rgb(110,72,170)'],
-    ['rgb(179,255,171)', 'rgb(18,255,247)'],
-    ['rgb(255,78,80)',   'rgb(249,212,35)'],
-    ['rgb(251,211,233)', 'rgb(187,55,125)'],
-    ['rgb(0,210,255)',   'rgb(58,123,213)']
+    ["rgb(157,80,187)", "rgb(110,72,170)"],
+    ["rgb(179,255,171)", "rgb(18,255,247)"],
+    ["rgb(255,78,80)", "rgb(249,212,35)"],
+    ["rgb(251,211,233)", "rgb(187,55,125)"],
+    ["rgb(0,210,255)", "rgb(58,123,213)"],
   ];
 
   constructor(props) {
@@ -45,6 +47,7 @@ export default class Tiktok extends React.Component {
     this.className = "fa fa-pause";
     this.state = {
       play: true,
+      tick: 0
     };
 
     if (this.content.musique) {
@@ -68,46 +71,46 @@ export default class Tiktok extends React.Component {
   }
 
   setupImageFilter(src) {
-    let context = this.canvas.getContext("2d");
-    let imageObj = new Image();
+    let _this = this;
 
-    imageObj.onload = function () {
-      context.drawImage(imageObj, 0, 0, 500, 720);
-    };
-    imageObj.src = src;
+    new fabric.Image.fromURL(src, function (img) {
+      img.set({ scaleX: _this.canvas.width / img.width, scaleY: _this.canvas.height / img.height, selectable: false, hoverCursor: "default" });
+
+      _this.canvas.add(img);
+      _this.canvas.bringToFront(img);
+    });
   }
 
   setupMovingFilter(src) {
-    let canvas = this.canvas;
     let _this = this;
-    console.log("IS PLAYING?", this.state.play);
 
     new fabric.Image.fromURL(src, function (img) {
       img.set({ top: -img.height, selectable: false, hoverCursor: "default" });
-      canvas.add(img);
+      _this.canvas.add(img);
+      _this.canvas.bringToFront(img);
       (function animate() {
         if (_this.state.play) {
           img.top = img.top + 1;
-          if (img.top === canvas.height) {
+          if (img.top === _this.canvas.height) {
             img.top = -img.height;
           }
         }
-        canvas.renderAll();
+        _this.canvas.renderAll();
         fabric.util.requestAnimFrame(animate);
       })();
     });
 
     new fabric.Image.fromURL(src, function (img) {
       img.set({ top: 0, selectable: false, hoverCursor: "default" });
-      canvas.add(img);
+      _this.canvas.add(img);
       (function animate() {
         if (_this.state.play) {
           img.top = img.top + 1;
-          if (img.top === canvas.height) {
+          if (img.top === _this.canvas.height) {
             img.top = -img.height;
           }
         }
-        canvas.renderAll();
+        _this.canvas.renderAll();
         fabric.util.requestAnimFrame(animate);
       })();
     });
@@ -127,7 +130,6 @@ export default class Tiktok extends React.Component {
 
   setupBackground() {
     let gradient = this.GRADIENTS[Math.floor(Math.random() * this.GRADIENTS.length)];
-    console.log(gradient[0])
 
     let grad = new fabric.Gradient({
       type: "linear",
@@ -153,6 +155,46 @@ export default class Tiktok extends React.Component {
     this.canvas.renderAll();
   }
 
+  setupAnimaux() {
+    let _this = this;
+    if (!this.content.animaux || this.content.animaux.length === 0) {
+      return;
+    }
+
+    for (let idx in this.content.animaux) {
+      let src = wako;
+      if (this.content.animaux[idx]["espèce"] === "Serpent") {
+        src = bob;
+      } else if (this.content.animaux[idx]["espèce"] === "Cockatiel") {
+        src = cookie;
+      }
+  
+      new fabric.Image.fromURL(src, function (img) {
+        img.set({
+          top: _this.canvas.height * (2 * idx + 1) / (2 * _this.content.animaux.length),
+          left: _this.canvas.width / 2,
+          selectable: false,
+          hoverCursor: "default",
+          angle: 0,
+          originX: "center",
+          originY: "center",
+        });
+
+        img.scaleToHeight(_this.canvas.height /  _this.content.animaux.length);
+
+        _this.canvas.add(img);
+        (function animate() {
+          if (_this.state.play) {
+            _this.state.tick += (1 / _this.content.animaux.length)
+            img.angle = 40 * Math.sin(_this.state.tick/7);
+          }
+          _this.canvas.renderAll();
+          fabric.util.requestAnimFrame(animate);
+        })();
+      });
+    }
+  }
+
   componentDidMount() {
     if (this.isMusic) {
       this.audio.addEventListener("ended", () => this.setState({ play: false }));
@@ -167,7 +209,7 @@ export default class Tiktok extends React.Component {
     this.canvas.on("mouse:up", this.togglePlay);
 
     this.setupBackground();
-
+    this.setupAnimaux();
     if (this.content.filtre) {
       this.showFilter(this.content.filtre);
     }
