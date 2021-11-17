@@ -1,13 +1,15 @@
 .content {
-    width: min(450px, 100vw);
-    height: min(700px, 100vh);
     margin: 0 auto;
     position: relative;
+    width: fit-content;
+    height: fit-content;
 }
 
 #c {
     border: solid 1px black;
     position: absolute;
+    top: 50%;
+    right: 50%;
 }
 
 #playpause {
@@ -51,7 +53,7 @@
 
 #likes {
     z-index: 200;
-    top: 50%;
+    top: calc(90% - 275px);
     text-align: center;
     right: 0%;
     padding-right: 10px;

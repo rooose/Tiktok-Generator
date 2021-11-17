@@ -19,6 +19,7 @@ label {
 }
 
 textarea {
+    margin: 0px 15px;
     height:250px;
     width: -webkit-fill-available;
     background-color: #F5F5F5;

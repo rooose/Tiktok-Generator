@@ -208,8 +208,8 @@ export default class Tiktok extends React.Component {
     }
   
     this.canvas = new fabric.Canvas("c", {
-      width: Math.min(450, window.innerWidth),
-      height:  Math.min(700, window.innerHeight - 20),
+      width: Math.min(450, document.body.clientWidth),
+      height:  Math.min(700, document.body.clientHeight),
       // width: 500,
       // height:  720,
       defaultCursor: "default",
