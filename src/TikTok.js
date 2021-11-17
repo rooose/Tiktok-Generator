@@ -15,6 +15,7 @@ import bob from "./assets/animals/bob_cropped.png";
 import wako from "./assets/animals/wako_cropped.png";
 import cookie from "./assets/animals/cookie_cropped.png";
 
+import { Navigate } from "react-router-dom";
 export default class Tiktok extends React.Component {
   URLS = [
     {
@@ -50,7 +51,7 @@ export default class Tiktok extends React.Component {
       tick: 0
     };
 
-    if (this.content.musique) {
+    if (this.content && this.content.musique) {
       this.isMusic = true;
       let song = this.getSongFromProps();
       this.audio = new Audio(song);
@@ -58,7 +59,9 @@ export default class Tiktok extends React.Component {
       this.audio.play();
     } else {
       this.isMusic = false;
-      this.content.musique = "Pas de musique";
+      if(this.content) {
+        this.content.musique = "Pas de musique";
+      }
     }
   }
 
@@ -196,12 +199,17 @@ export default class Tiktok extends React.Component {
   }
 
   componentDidMount() {
+    if(!this.content) {
+      return
+    }
+
     if (this.isMusic) {
       this.audio.addEventListener("ended", () => this.setState({ play: false }));
     }
+  
     this.canvas = new fabric.Canvas("c", {
       width: Math.min(450, window.innerWidth),
-      height:  Math.min(740, window.innerHeight),
+      height:  Math.min(700, window.innerHeight - 20),
       // width: 500,
       // height:  720,
       defaultCursor: "default",
@@ -236,6 +244,10 @@ export default class Tiktok extends React.Component {
   };
 
   componentWillUnmount() {
+    if(!this.content) {
+      return
+    }
+
     if (this.isMusic) {
       this.audio.pause();
       this.audio.removeEventListener("ended", () => this.setState({ play: false }));
@@ -246,6 +258,7 @@ export default class Tiktok extends React.Component {
   }
 
   render() {
+    if (this.content) {
     return (
       <div className="content">
         <div id="playpause" className="invisible" ref={this.playpause}>
@@ -271,5 +284,8 @@ export default class Tiktok extends React.Component {
         </div>
       </div>
     );
+    } else {
+        return <Navigate to="/" />;
+    }
   }
 }

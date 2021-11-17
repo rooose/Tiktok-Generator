@@ -1,6 +1,6 @@
 .content {
     width: min(450px, 100vw);
-    height: min(740px, 100vh);
+    height: min(700px, 100vh);
     margin: 0 auto;
     position: relative;
 }
