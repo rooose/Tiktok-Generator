@@ -48,7 +48,8 @@ export default class Tiktok extends React.Component {
     this.className = "fa fa-pause";
     this.state = {
       play: true,
-      tick: 0
+      tick: 0,
+      redirect: false
     };
 
     if (this.content && this.content.musique) {
@@ -70,6 +71,9 @@ export default class Tiktok extends React.Component {
       if (url.name === this.content.musique) {
         return url.url;
       }
+    }
+    if (!this.content.musique.endsWith('(Non supporté)')){
+      this.content.musique = `${this.content.musique} (Non supporté)`
     }
   }
 
@@ -185,6 +189,10 @@ export default class Tiktok extends React.Component {
 
         img.scaleToHeight(_this.canvas.height /  _this.content.animaux.length);
 
+        if (_this.content.animaux.length === 1) {
+          img.scaleToWidth(_this.canvas.width);
+        }
+
         _this.canvas.add(img);
         (function animate() {
           if (_this.state.play) {
@@ -210,8 +218,6 @@ export default class Tiktok extends React.Component {
     this.canvas = new fabric.Canvas("c", {
       width: Math.min(450, document.body.clientWidth),
       height:  Math.min(700, document.body.clientHeight),
-      // width: 500,
-      // height:  720,
       defaultCursor: "default",
       moveCursor: "default",
     });
@@ -243,6 +249,12 @@ export default class Tiktok extends React.Component {
     });
   };
 
+  goBack = () => {
+    if(this) {
+      this.setState({redirect: true})
+    }
+  }
+
   componentWillUnmount() {
     if(!this.content) {
       return
@@ -255,16 +267,18 @@ export default class Tiktok extends React.Component {
 
     let context = this.canvas.getContext("2d");
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
+  };
 
   render() {
-    if (this.content) {
+    if (this && this.content && !this.state.redirect) {
     return (
       <div className="content">
+
         <div id="playpause" className="invisible" ref={this.playpause}>
           <i className={this.className} />
         </div>
         <canvas id="c" />
+        <div className="back"><i onClick={this.goBack} className="fa fa-arrow-left"/></div>
         <div id="account">@PolyAnimaux</div>
         <div id="title">{this.content.titre}</div>
         <div id="musique">
